@@ -46,7 +46,7 @@ const FormInputs = () => {
         >
           <TextField
             fullWidth
-            size="small"
+            size="large"
             id={item.id}
             label={item.label}
             variant="outlined"
