@@ -35,3 +35,9 @@ export const allItemsEnd = {
   justifyContent: "end",
   alignItems: "center",
 };
+
+export const allItemsEndToEnd = {
+  display: "flex",
+  justifyContent: "end",
+  alignItems: "end",
+};

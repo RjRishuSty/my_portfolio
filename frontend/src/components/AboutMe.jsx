@@ -128,7 +128,7 @@ const AboutMe = () => {
                     >
                       Career Goal
                     </Typography>
-                    <Typography gutterBottom variant="body1" sx={{ color: "text.secondary",width:'80%' }}>
+                    <Typography gutterBottom variant="body1" sx={{ color: "text.secondary",width:isTablet?"100%":'80%' }}>
                      To become a full-time developer in a company where I can contribute to meaningful projects, learn from experienced professionals, and grow into a senior role over time
                     </Typography>
               </>

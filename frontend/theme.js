@@ -1,33 +1,33 @@
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
-   typography: {
+  typography: {
     fontFamily: '"Quicksand", sans-serif', // Default for body text
     h1: {
       fontWeight: 700,
-      fontFamily: '"Playfair Display", serif', 
+      fontFamily: '"Playfair Display", serif',
     },
     h2: {
       fontWeight: 800,
-      fontFamily: '"Playfair Display", serif', 
+      fontFamily: '"Playfair Display", serif',
     },
     h3: {
       fontWeight: 600,
-      fontFamily: '"Playfair Display", serif', 
+      fontFamily: '"Playfair Display", serif',
     },
     h4: {
       fontWeight: 800,
-      fontFamily: '"Playfair Display", serif', 
+      fontFamily: '"Playfair Display", serif',
     },
-    
+
     body1: {
       fontWeight: 400,
-      fontFamily: '"Quicksand", sans-serif', 
+      fontFamily: '"Quicksand", sans-serif',
     },
     button: {
-      textTransform: 'none',
-      fontFamily: '"Quicksand", sans-serif', 
-      fontWeight:700
+      textTransform: "none",
+      fontFamily: '"Quicksand", sans-serif',
+      fontWeight: 700,
     },
   },
   palette: {
@@ -53,14 +53,20 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#f9004d',
+          color: "#000", 
+          fontWeight:600,
+          "& input": {
+            color: "#000",
+            fontWeight:600, 
           },
-          '&:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#f9004d',
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#f9004d",
           },
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#f9004d',
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#f9004d",
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#f9004d",
           },
         },
       },

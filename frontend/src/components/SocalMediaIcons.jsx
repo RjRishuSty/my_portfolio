@@ -3,9 +3,11 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import { IconButton } from "@mui/material";
+import { IconButton, useMediaQuery } from "@mui/material";
 
-const SocalMediaIcons = () => {
+const SocalMediaIcons = ({ useIn }) => {
+  const isMobile = useMediaQuery("(max-width:550px)");
+  const heroSection = useIn === "heroSection";
   const socialMedia = [
     {
       id: 1,
@@ -44,7 +46,7 @@ const SocalMediaIcons = () => {
             color: "white",
             backgroundColor: "secondary.main",
             borderRadius: 10,
-            mr: 2,
+            mr: isMobile?1:heroSection?3:2,
             border: "2px solid transparent",
             transition: "transform 0.2s, color 0.2s",
             "&:hover": {
@@ -56,7 +58,9 @@ const SocalMediaIcons = () => {
             },
           }}
         >
-          {item.icon}
+          {React.cloneElement(item.icon, {
+            sx: { fontSize: isMobile?'1.7rem':heroSection ? "2.5rem" : "1.7rem" },
+          })}
         </IconButton>
       ))}
     </>
