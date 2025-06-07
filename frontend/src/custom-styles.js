@@ -22,3 +22,16 @@ export const allItemsStart = {
   justifyContent: "start",
   alignItems: "start",
 };
+
+export const allItemsCenterWithStart = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "start",
+};
+
+
+export const allItemsEnd = {
+  display: "flex",
+  justifyContent: "end",
+  alignItems: "center",
+};

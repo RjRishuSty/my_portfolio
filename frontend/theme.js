@@ -16,9 +16,10 @@ const theme = createTheme({
       fontFamily: '"Playfair Display", serif', 
     },
     h4: {
-      fontWeight: 500,
+      fontWeight: 800,
       fontFamily: '"Playfair Display", serif', 
     },
+    
     body1: {
       fontWeight: 400,
       fontFamily: '"Quicksand", sans-serif', 
@@ -46,6 +47,23 @@ const theme = createTheme({
       default: "#000000",
       primary: "#ffffff",
       secondary: "rgb(71, 69, 69)",
+    },
+  },
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#f9004d',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#f9004d',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#f9004d',
+          },
+        },
+      },
     },
   },
 });

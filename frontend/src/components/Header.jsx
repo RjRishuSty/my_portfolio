@@ -12,6 +12,7 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import NavLinks from "./NavLinks";
 import { allItemsCenter } from "../custom-styles";
 import MenuBtn from "./MenuBtn";
+import myResume from '../assets/my_Resume.pdf';
 
 // Elevation effect on scroll
 function ElevationScroll(props) {
@@ -26,7 +27,10 @@ function ElevationScroll(props) {
     elevation: trigger ? 4 : 0,
     sx: {
       ...children.props.sx,
-      backgroundColor: trigger ? "#ffffff" : "transparent",
+      padding: "8px 0px",
+      backgroundColor: trigger ? "rgba(255, 255, 255, 0.8)" : "transparent",
+      backdropFilter: trigger ? "blur(10px)" : "none",
+      WebkitBackdropFilter: trigger ? "blur(10px)" : "none",
       transition: "background-color 0.3s ease",
     },
   });
@@ -52,23 +56,21 @@ const Header = (props) => {
           }}
         >
           <Toolbar>
-            <Box
-              flexGrow={miniLaptop ? 1 : 0.5}
-            >
+            <Box flexGrow={miniLaptop ? 1 : 0.5}>
               <Logo />
             </Box>
             {isMobile ? (
-              <MenuBtn/>
+              <MenuBtn />
             ) : (
               <>
-                <Box
-                  flexGrow={miniLaptop ? 0 : 0.9}
-                  sx={{ ...allItemsCenter }}
-                >
+                <Box flexGrow={miniLaptop ? 0 : 0.9} sx={{ ...allItemsCenter }}>
                   <NavLinks />
                 </Box>
                 <Box>
                   <Button
+                    href={myResume}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     variant="contained"
                     size={miniLaptop ? "medium" : "large"}
                     sx={{ mr: 2, backgroundColor: "primary.main" }}
@@ -77,6 +79,9 @@ const Header = (props) => {
                     My Resume
                   </Button>
                   <Button
+                    component="a"
+                    href="https://github.com/RjRishuSty/"
+                    target="_blank"
                     variant="contained"
                     size={miniLaptop ? "medium" : "large"}
                     sx={{

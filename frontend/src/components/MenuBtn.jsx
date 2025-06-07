@@ -5,8 +5,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
 const MenuBtn = () => {
   return (
-    <IconButton>
-      <MenuIcon />
+    <IconButton sx={{backgroundColor:'#f9004d'}}> 
+      <MenuIcon  fontSize="large" sx={{color:'white'}}/>
     </IconButton>
   );
 };

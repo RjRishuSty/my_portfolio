@@ -15,8 +15,4 @@ export const links = [
     label: "Projects",
     path: "/about",
   },
-  {
-    label: "etc",
-    path: "/contact",
-  },
 ];
