@@ -1,16 +1,55 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
-import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
 import ScrollToTop from "../components/ScrollToTop";
+import { Outlet } from "react-router-dom";
+import { Skeleton, Stack } from "@mui/material";
+import LoadingPageLayout from "./LoadingPageLayout";
 
 const AppLayout = () => {
+  const [assetsLoaded, setAssetsLoaded] = useState(false);
+
+  useEffect(() => {
+    const imagesToLoad = [
+      "/assets/banner.png",
+      "/assets/banner2.png",
+      "/assets/banner3.png",
+      "/assets/banner4.png",
+      "/assets/bootstrap.png",
+      "/assets/comingsoon.jpg",
+    ];
+
+    let loadedCount = 0;
+    const totalImages = imagesToLoad.length;
+
+    if (totalImages === 0) {
+      setTimeout(() => setAssetsLoaded(true), 2000); // simulate load
+      return;
+    }
+
+    imagesToLoad.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+
+      img.onload = img.onerror = () => {
+        loadedCount += 1;
+        if (loadedCount === totalImages) {
+          setTimeout(() => setAssetsLoaded(true), 2000); // simulate load
+        }
+      };
+    });
+  }, []);
+
+  if (!assetsLoaded) {
+    return <LoadingPageLayout/>
+  }
+
   return (
     <>
       <Header />
-      <ScrollToTop/>
+      <ScrollToTop />
       <Outlet />
-      <Footer/>
+      <Footer />
     </>
   );
 };
