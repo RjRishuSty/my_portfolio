@@ -1,14 +1,15 @@
 import React, { Children } from "react";
-import AppLayout from "./Layouts/AppLayout";
 import HomePage from "./pages/HomePage";
 import NotFound from "./pages/NotFound";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AppLayout from "./AppLayout/AppLayout";
+
 
 const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <AppLayout />,
+      element: <AppLayout/>,
       children: [
         {
           path: "/",
