@@ -95,7 +95,7 @@ const Footer = () => {
           size={{ xs: 12, sm: 12, md: 5 }}
           sx={{ ...(isTablet ? allItemsCenter : allItemsEnd) }}
         >
-          <SocalMediaIcons />
+          <SocalMediaIcons  animateNow={true}/>
         </Grid>
       </Grid>
     </Stack>

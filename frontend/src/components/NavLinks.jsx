@@ -1,7 +1,7 @@
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import { useLocation, Link } from "react-router-dom";
 import { links } from "../../links";
-import { allItemsSpaceAround } from "../custom-styles";
+import { allItemsSpaceAround, allItemsStart } from "../custom-styles";
 import { motion } from "framer-motion";
 
 // Sequential entrance animation
@@ -18,9 +18,11 @@ const navVariants = {
   }),
 };
 
-const NavLinks = () => {
+const NavLinks = ({ useIn, setShowSidebar }) => {
   const location = useLocation();
   const miniLaptop = useMediaQuery("(max-width:1100px)");
+  const isMobile = useMediaQuery("(max-width:860px)");
+  const sidebar = useIn === "sidebar";
 
   return (
     <Box
@@ -28,8 +30,13 @@ const NavLinks = () => {
       initial="hidden"
       animate="visible"
       sx={{
-        ...allItemsSpaceAround,
         width: miniLaptop ? "100%" : "70%",
+        // border: "4px solid black",
+        mt: sidebar ? 2 : 0,
+        display: "flex",
+        flexDirection: sidebar ? "column" : "row",
+        ...(sidebar ? allItemsStart : allItemsSpaceAround),
+        gap: 1,
       }}
     >
       {links.map((item, i) => {
@@ -50,28 +57,39 @@ const NavLinks = () => {
               },
             }}
             style={{
-                padding:'10px 15px' ,borderRadius:5}}
+              padding: "10px 15px",
+              borderRadius: 5,
+            }}
             whileTap={{ scale: 0.95 }}
           >
             <Typography
               component={Link}
               to={item.path}
               variant="body1"
+              onClick={() => {
+                if (sidebar && isMobile && setShowSidebar) {
+                  setShowSidebar(false); // ✅ runs safely on user click
+                }
+              }}
               sx={{
-                color: "black",
+                color: sidebar && isMobile ? "white" : "black",
                 cursor: "pointer",
                 fontWeight: 600,
                 borderRadius: 1,
-                pb:2,
+                pb: 2,
+                textTransform: sidebar ? "uppercase" : "capitalize",
                 textDecoration: "none",
-                borderBottom: isActive
-                  ? "3px solid #f9004d"
-                  : "2px solid transparent",
+                ...(isActive && sidebar && isMobile
+                  ? {
+                      color: "#ffde59",
+                      fontWeight: 700,
+                    }
+                  : {
+                      borderBottom: isActive
+                        ? "3px solid #f9004d"
+                        : "2px solid transparent",
+                    }),
                 transition: "all 0.3s ease-in-out",
-                // "&:hover": {
-                //   textTransform: "uppercase",
-                //   border: "1px solid #f9004d",
-                // },
               }}
             >
               {item.label}

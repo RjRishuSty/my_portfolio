@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Box,
@@ -16,10 +16,12 @@ import NavLinks from "./NavLinks";
 import MenuBtn from "./MenuBtn";
 import myResume from "../assets/my_Resume.pdf";
 import { motion } from "framer-motion";
+import SideBar from "./SideBar";
 
 // Elevation on scroll
 function ElevationScroll(props) {
   const { children, window } = props;
+
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
@@ -70,14 +72,22 @@ const btnVariant = {
 };
 
 const Header = (props) => {
+  const [showSidebar, setShowSidebar] = useState(false);
   const miniLaptop = useMediaQuery("(max-width:1100px)");
   const isMobile = useMediaQuery("(max-width:860px)");
 
+  const handleToggleMenu = () => {
+    setShowSidebar((prev) => !prev);
+  };
   return (
     <Box component="nav" sx={{ flexGrow: 1 }}>
       <CssBaseline />
       <ElevationScroll {...props}>
-        <AppBar component={motion.div} position="fixed" sx={{ zIndex: 1200, border: "none" }}>
+        <AppBar
+          component={motion.div}
+          position="fixed"
+          sx={{ zIndex: 1200, border: "none" }}
+        >
           <motion.div
             initial="hidden"
             animate="show"
@@ -93,7 +103,10 @@ const Header = (props) => {
 
               {isMobile ? (
                 <motion.div variants={btnVariant}>
-                  <MenuBtn />
+                  <MenuBtn
+                    handleToggleMenu={handleToggleMenu}
+                    showSidebar={showSidebar}
+                  />
                 </motion.div>
               ) : (
                 <>
@@ -125,7 +138,10 @@ const Header = (props) => {
                         rel="noopener noreferrer"
                         variant="contained"
                         size={miniLaptop ? "medium" : "large"}
-                        sx={{ backgroundColor: "primary.main", textTransform: "none" }}
+                        sx={{
+                          backgroundColor: "primary.main",
+                          textTransform: "none",
+                        }}
                         startIcon={<ReceiptIcon />}
                       >
                         My Resume
@@ -159,6 +175,7 @@ const Header = (props) => {
           </motion.div>
         </AppBar>
       </ElevationScroll>
+       {showSidebar && isMobile && <SideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />}
     </Box>
   );
 };
