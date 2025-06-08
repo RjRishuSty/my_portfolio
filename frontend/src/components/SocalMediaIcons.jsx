@@ -1,13 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import { IconButton, useMediaQuery } from "@mui/material";
+import { Box, IconButton, useMediaQuery } from "@mui/material";
+import { motion, useAnimation } from "framer-motion";
 
-const SocalMediaIcons = ({ useIn }) => {
+const containerVariants = {
+  visible: {
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
+    },
+  },
+  hidden: {},
+};
+
+const iconVariants = {
+  hidden: { opacity: 0, x: -30 },
+  visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 100 } },
+};
+
+const SocalMediaIcons = ({ useIn, animateNow }) => {
   const isMobile = useMediaQuery("(max-width:550px)");
-  const heroSection = useIn === "heroSection";
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (animateNow) {
+      controls.start("visible");
+    }
+  }, [animateNow, controls]);
+
   const socialMedia = [
     {
       id: 1,
@@ -34,36 +57,52 @@ const SocalMediaIcons = ({ useIn }) => {
       path: "https://www.instagram.com/rj_rishu_sty/",
     },
   ];
+
   return (
-    <>
+    <Box
+      component={motion.div}
+      variants={containerVariants}
+      initial="hidden"
+      animate={controls}
+      style={{ display: "flex" }}
+    >
       {socialMedia.map((item) => (
-        <IconButton
-          component="a"
-          href={item.path}
-          target="_blank"
+        <motion.div
           key={item.id}
-          sx={{
-            color: "white",
-            backgroundColor: "secondary.main",
-            borderRadius: 10,
-            mr: isMobile?1:heroSection?3:2,
-            border: "2px solid transparent",
-            transition: "transform 0.2s, color 0.2s",
-            "&:hover": {
-              color: "secondary.main",
-              transform: "scale(1.2)",
-              borderColor: "secondary.main",
-              borderWidth: 2,
-              backgroundColor: "transparent",
-            },
-          }}
+          variants={iconVariants}
+          style={{ marginRight: isMobile ? 8 : useIn === "heroSection" ? 24 : 16 }}
         >
-          {React.cloneElement(item.icon, {
-            sx: { fontSize: isMobile?'1.7rem':heroSection ? "2.5rem" : "1.7rem" },
-          })}
-        </IconButton>
+          <IconButton
+            component="a"
+            href={item.path}
+            target="_blank"
+            sx={{
+              color: "white",
+              backgroundColor: "secondary.main",
+              borderRadius: 10,
+              border: "2px solid transparent",
+              transition: "transform 0.2s, color 0.2s",
+              "&:hover": {
+                color: "secondary.main",
+                transform: "scale(1.2)",
+                borderColor: "secondary.main",
+                backgroundColor: "transparent",
+              },
+            }}
+          >
+            {React.cloneElement(item.icon, {
+              sx: {
+                fontSize: isMobile
+                  ? "1.7rem"
+                  : useIn === "heroSection"
+                  ? "2.5rem"
+                  : "1.7rem",
+              },
+            })}
+          </IconButton>
+        </motion.div>
       ))}
-    </>
+    </Box>
   );
 };
 

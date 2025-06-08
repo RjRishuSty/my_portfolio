@@ -7,14 +7,20 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import React from "react";
-import {
-  allItemsCenter,
-  allItemsEnd
-} from "../custom-styles";
+import { allItemsCenter, allItemsEnd } from "../custom-styles";
 import SocalMediaIcons from "./SocalMediaIcons";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Footer = () => {
+  const fadeInUp = {
+    initial: { opacity: 0, y: 40 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+  };
   const navigation = useNavigate();
   const miniLaptop = useMediaQuery("(max-width:1160px)");
   const isTablet = useMediaQuery("(max-width:900px)");
@@ -28,12 +34,19 @@ const Footer = () => {
       }}
     >
       <Grid container rowSpacing={3} columnSpacing={3}>
-        <Grid
-          size={{ xs: 12, sm: 12, md: 8 }}
-        >
+        <Grid size={{ xs: 12, sm: 12, md: 8 }}>
           <Typography
+          component={motion.p}
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.5 }}
             variant={miniLaptop ? "h3" : "h2"}
-            sx={{textAlign:isTablet?"center":"end", color: "text.primary", p:isTablet?1:"" }}
+            sx={{
+              textAlign: isTablet ? "center" : "end",
+              color: "text.primary",
+              p: isTablet ? 1 : "",
+            }}
           >
             Have a project in mind?
           </Typography>
@@ -41,9 +54,9 @@ const Footer = () => {
         <Grid
           size={{ xs: 12, sm: 12, md: 3 }}
           sx={{
-            display:'flex',
-            justifyContent:isTablet?"center":'start',
-            alignItems:'center',
+            display: "flex",
+            justifyContent: isTablet ? "center" : "start",
+            alignItems: "center",
           }}
         >
           <Button
@@ -60,7 +73,7 @@ const Footer = () => {
                 borderColor: "secondary.dark",
               },
             }}
-            onClick={()=>navigation('/contact')}
+            onClick={() => navigation("/contact")}
           >
             Start a Conversation
           </Button>

@@ -1,4 +1,10 @@
-import { Container, Stack, Typography, useMediaQuery } from "@mui/material";
+
+import {
+  Container,
+  Stack,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import React from "react";
 import { projectList } from "../../projectList";
 import ProjectCard from "./ProjectCard";
@@ -9,13 +15,33 @@ import "swiper/css/navigation";
 import { Pagination, Navigation } from "swiper/modules";
 import { allItemsCenter } from "../custom-styles";
 import bgImg from "../assets/banner4.jpg";
+import { motion } from "framer-motion";
+
+const MotionStack = motion(Stack);
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+      ease: "easeOut",
+    },
+  },
+};
 
 const ProjectCollection = () => {
   const isTablet = useMediaQuery("(max-width:970px)");
   const isMobile = useMediaQuery("(max-width:560px)");
+
   return (
-    <Stack
+    <MotionStack
       component="section"
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
       sx={{
         py: 5,
         overflow: "hidden",
@@ -44,21 +70,18 @@ const ProjectCollection = () => {
         >
           Crafted Projects
         </Typography>
-        <Typography
-          variant="h5"
-          sx={{ textAlign: "center", color: "text.default" }}
-        >
-          These projects reflect my focus on quality, user experience, and clean
-          development.
+        <Typography variant="h5" sx={{ textAlign: "center", color: "text.default" }}>
+          These projects reflect my focus on quality, user experience, and clean development.
         </Typography>
       </Container>
+
       <Swiper
         slidesPerView={isTablet ? 1 : 2}
         spaceBetween={100}
         slidesPerGroup={1}
         pagination={{
-          clickable: true, // Make bullets clickable
-          type: "bullets", // Use circle bullets
+          clickable: true,
+          type: "bullets",
         }}
         navigation={true}
         modules={[Pagination, Navigation]}
@@ -72,13 +95,27 @@ const ProjectCollection = () => {
           ...allItemsCenter,
         }}
       >
-        {projectList.map((item) => (
-          <SwiperSlide key={item.name} sx={{ border: "4px solid pink" }}>
-            <ProjectCard item={item} />
+        {projectList.map((item, i) => (
+          <SwiperSlide key={item.name}>
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 0.6,
+                  ease: "easeOut",
+                  delay: 0.3 + i * 0.2, // Sequential delay
+                },
+              }}
+              viewport={{ once: true, amount: 0.3 }}
+            >
+              <ProjectCard item={item} />
+            </motion.div>
           </SwiperSlide>
         ))}
       </Swiper>
-    </Stack>
+    </MotionStack>
   );
 };
 

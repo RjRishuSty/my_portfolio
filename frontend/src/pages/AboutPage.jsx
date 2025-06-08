@@ -7,6 +7,7 @@ import CodeIcon from "@mui/icons-material/Code";
 import ViewQuiltIcon from "@mui/icons-material/ViewQuilt";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import DynamicFormIcon from "@mui/icons-material/DynamicForm";
+import { motion } from "framer-motion";
 
 const AboutPage = () => {
   const isTablet = useMediaQuery("(max-width:900px)");
@@ -38,7 +39,6 @@ const AboutPage = () => {
     },
   ];
 
-  // Positions for desktop
   const positions = [
     { top: "20%", left: "5%" },
     { top: "40%", right: "5%" },
@@ -46,13 +46,11 @@ const AboutPage = () => {
     { top: "80%", right: "10%" },
   ];
 
-  // Positions for tablet (only 2 cards)
   const tabletPositions = [
     { top: "20%", left: "2%" },
     { top: "76.5%", right: "2%" },
   ];
 
-  // Select cards and positions based on screen size
   const cardsToShow = isTablet
     ? passionHighlights.slice(0, 2)
     : passionHighlights;
@@ -61,6 +59,7 @@ const AboutPage = () => {
   return (
     <>
       <Stack
+        component={motion.div}
         sx={{
           backgroundImage: `url(${aboutBg})`,
           backgroundSize: "cover",
@@ -71,22 +70,32 @@ const AboutPage = () => {
           px: 4,
           py: 8,
         }}
+        initial={{ opacity: 0, y: -100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: "easeOut" }}
       >
         {cardsToShow.map((item, index) => (
-          <div
+          <motion.div
             key={index}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: 1 + index * 0.3, // delay starts after bg is shown
+              duration: 0.6,
+              ease: "easeOut",
+            }}
             style={{
               position: "absolute",
               maxWidth: 350,
               ...cardPositions[index],
-            }} 
+            }}
           >
             <PassionCard
               heading={item.heading}
               description={item.description}
               icon={item.icon}
             />
-          </div>
+          </motion.div>
         ))}
       </Stack>
       <AboutMe />

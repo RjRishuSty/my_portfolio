@@ -11,57 +11,89 @@ import React from "react";
 import { allItemsCenter } from "../custom-styles";
 import FormInputs from "./FormInputs";
 import InfoCard from "./InfoCard";
+import { motion } from "framer-motion";
+
+// Animation Variants
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, delay },
+  }),
+};
+
+const MotionStack = motion(Stack);
+const MotionBox = motion(Box);
+const MotionTypography = motion(Typography);
+const MotionGrid = motion(Grid);
 
 const ContactMe = () => {
   const miniLaptop = useMediaQuery("(max-width:1025px)");
   const isMobile = useMediaQuery("(max-width:900px)");
+
   return (
-    <Stack
+    <MotionStack
       component="section"
-      sx={{
-        py: 5,
-      }}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      sx={{ py: 5 }}
     >
-      <Container
-        sx={{
-          ...allItemsCenter,
-          flexDirection: "column",
-        }}
-      >
-        <Typography
-          gutterBottom
+      <Container sx={{ ...allItemsCenter, flexDirection: "column" }}>
+        <MotionTypography
           variant="h4"
+          gutterBottom
           sx={{ color: "secondary.main", textAlign: "center" }}
+          variants={fadeUp}
+          custom={0}
         >
           Get in Touch
-        </Typography>
-        <Typography
+        </MotionTypography>
+
+        <MotionTypography
           variant="h5"
           sx={{
             textAlign: "center",
             color: "text.default",
             width: isMobile ? "100%" : miniLaptop ? "80%" : "50%",
           }}
+          variants={fadeUp}
+          custom={0.2}
         >
-          I'm open to freelance, collaboration, or full-time opportunities —
-          drop a message!
-        </Typography>
+          I'm open to freelance, collaboration, or full-time opportunities — drop a message!
+        </MotionTypography>
       </Container>
+
       <Container sx={{ mt: 5 }}>
         <Grid container rowSpacing={3} columnSpacing={3}>
-          <Grid size={{ xs: 12, sm: 12, md: 4 }}>
+          {/* Left Grid */}
+          <MotionGrid
+            size={{ xs: 12, sm: 12, md: 4 }}
+            variants={fadeUp}
+            custom={0.4}
+          >
             {isMobile && (
-              <Typography
+              <MotionTypography
                 variant="h6"
-                sx={{ color: "text.default", fontWeight: 700, mb: 3, backgroundColor:'#ffde59',pl:2,p:1 }}
+                sx={{ color: "text.default", fontWeight: 700, mb: 3, backgroundColor: '#ffde59', pl: 2, p: 1 }}
+                variants={fadeUp}
+                custom={0.45}
               >
                 Contact Information
-              </Typography>
+              </MotionTypography>
             )}
-            <InfoCard />
-          </Grid>
-          <Grid
+            {/* Animate InfoCard itself */}
+            <MotionBox variants={fadeUp} custom={0.6}>
+              <InfoCard />
+            </MotionBox>
+          </MotionGrid>
+
+          {/* Right Grid */}
+          <MotionGrid
             size={{ xs: 12, sm: 12, md: 8 }}
+            variants={fadeUp}
+            custom={0.6}
             sx={{
               py: 2,
               ...allItemsCenter,
@@ -69,27 +101,37 @@ const ContactMe = () => {
             }}
           >
             {isMobile && (
-              <Box sx={{  width: "100%", mb: 3 }}>
+              <MotionBox
+                sx={{ width: "100%", mb: 3 }}
+                variants={fadeUp}
+                custom={0.65}
+              >
                 <Typography
                   variant="h6"
-                  sx={{ color: "text.default", fontWeight: 700, backgroundColor:'#ffde59',pl:2,p:1 }}
+                  sx={{ color: "text.default", fontWeight: 700, backgroundColor: '#ffde59', pl: 2, p: 1 }}
                 >
                   Drop Your Query
                 </Typography>
-              </Box>
+              </MotionBox>
             )}
-            <FormInputs />
-            <Button
-              variant="contained"
-              size="large"
-              sx={{ backgroundColor: "#f9004d", mt: 2 }}
-            >
-              Send Message
-            </Button>
-          </Grid>
+
+            <MotionBox variants={fadeUp} custom={0.8} sx={{ width: "100%" }}>
+              <FormInputs />
+            </MotionBox>
+
+            <MotionBox variants={fadeUp} custom={1}>
+              <Button
+                variant="contained"
+                size="large"
+                sx={{ backgroundColor: "#f9004d", mt: 2 }}
+              >
+                Send Message
+              </Button>
+            </MotionBox>
+          </MotionGrid>
         </Grid>
       </Container>
-    </Stack>
+    </MotionStack>
   );
 };
 

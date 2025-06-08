@@ -12,18 +12,23 @@ import projectImg from "../assets/comingsoon.jpg";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
 import InfoIcon from "@mui/icons-material/Info";
 import { allItemsSpacebetween } from "../custom-styles";
+import { motion } from "framer-motion";
+
+const MotionCard = motion(Card);
 
 const ProjectCard = ({ item }) => {
   const isMobile = useMediaQuery("(max-width:560px)");
+
   return (
-    <Card
+    <MotionCard
+      whileHover={{ scale: 1.03 }}
+      transition={{ type: "spring", stiffness: 300 }}
       sx={{
         width: "100%",
-      backgroundColor: "#f2f2f2" ,
+        backgroundColor: "#f2f2f2",
         border: "none",
         borderRadius: 5,
         boxShadow: "0 4px 5px rgba(0, 0, 0, 0.9)",
-  
       }}
     >
       <Box
@@ -77,10 +82,10 @@ const ProjectCard = ({ item }) => {
           }}
           endIcon={<InfoIcon fontSize={isMobile ? "medium" : "large"} />}
         >
-          View More{" "}
+          View More
         </Button>
       </CardActions>
-    </Card>
+    </MotionCard>
   );
 };
 
