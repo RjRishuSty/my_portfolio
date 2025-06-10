@@ -78,10 +78,9 @@ const ContactMe = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8081/contact",
+        "https://my-protfolio-backend-bi5k.onrender.com/contact",
         formData
       );
-      console.log("Submit Response:", response);
 
       if (response)
         return enqueueSnackbar(response.data.message, {
