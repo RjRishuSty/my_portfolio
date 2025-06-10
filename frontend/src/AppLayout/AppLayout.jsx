@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ScrollToTop from "../components/ScrollToTop";
 import { Outlet } from "react-router-dom";
-import { Skeleton, Stack } from "@mui/material";
 import LoadingPageLayout from "./LoadingPageLayout";
 
 const AppLayout = () => {
@@ -41,7 +40,7 @@ const AppLayout = () => {
   }, []);
 
   if (!assetsLoaded) {
-    return <LoadingPageLayout/>
+    return <LoadingPageLayout />;
   }
 
   return (

@@ -6,6 +6,8 @@ import {
   CssBaseline,
   Button,
   useMediaQuery,
+  IconButton,
+  Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
@@ -17,10 +19,13 @@ import MenuBtn from "./MenuBtn";
 import myResume from "../assets/my_Resume.pdf";
 import { motion } from "framer-motion";
 import SideBar from "./SideBar";
+import { useLocation, useNavigate } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { allItemsCenter } from "../custom-styles";
 
 // Elevation on scroll
-function ElevationScroll(props) {
-  const { children, window } = props;
+function ElevationScroll({ children, window, isProjectDetailPage }) {
+  // const { children, window } = props;
 
   const trigger = useScrollTrigger({
     disableHysteresis: true,
@@ -33,7 +38,11 @@ function ElevationScroll(props) {
     sx: {
       ...children.props.sx,
       padding: "8px 0px",
-      backgroundColor: trigger ? "rgba(255, 255, 255, 0.9)" : "transparent",
+      backgroundColor: isProjectDetailPage
+        ? "#ffde59"
+        : trigger
+        ? "rgba(255, 255, 255, 0.9)"
+        : "transparent",
       backdropFilter: trigger ? "blur(10px)" : "none",
       WebkitBackdropFilter: trigger ? "blur(10px)" : "none",
       transition: "background-color 0.3s ease",
@@ -44,6 +53,7 @@ function ElevationScroll(props) {
 ElevationScroll.propTypes = {
   children: PropTypes.element.isRequired,
   window: PropTypes.func,
+  isProjectDetailPage: PropTypes.bool,
 };
 
 // Animation variants
@@ -71,22 +81,36 @@ const btnVariant = {
   show: { x: 0, opacity: 1, transition: { type: "tween", ease: "easeOut" } },
 };
 
+//  // Get Project Name Handle ..............
+//   export const handleGetProjectName = useCallback((name)=>{
+//     setProjectName(name);
+//   },[])
+
 const Header = (props) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [showSidebar, setShowSidebar] = useState(false);
   const miniLaptop = useMediaQuery("(max-width:1100px)");
   const isMobile = useMediaQuery("(max-width:860px)");
 
+  // Check if path matches "/project/:id"
+  const isProjectDetailPage = /^\/project\/\d+$/.test(location.pathname);
+
+  // TODO: Handle toggle menu btn close slidebar and open slidebar............
   const handleToggleMenu = () => {
     setShowSidebar((prev) => !prev);
   };
   return (
     <Box component="nav" sx={{ flexGrow: 1 }}>
       <CssBaseline />
-      <ElevationScroll {...props}>
+      <ElevationScroll {...props} isProjectDetailPage={isProjectDetailPage}>
         <AppBar
           component={motion.div}
           position="fixed"
-          sx={{ zIndex: 1200, border: "none" }}
+          sx={{
+            zIndex: 1200,
+            border: "none",
+          }}
         >
           <motion.div
             initial="hidden"
@@ -96,86 +120,134 @@ const Header = (props) => {
             <Toolbar sx={{ justifyContent: "space-between" }}>
               {/* Logo */}
               <motion.div variants={logoVariant}>
-                <Box flexGrow={miniLaptop ? 1 : 0.5}>
-                  <Logo />
+                <Box
+                  flexGrow={miniLaptop ? 1 : 0.5}
+                >
+                  {isProjectDetailPage ? (
+                    <Box sx={{ ...allItemsCenter }}>
+                      <IconButton
+                      onClick={()=>navigate(-1)}
+                        sx={{
+                          backgroundColor: "#f9004d",
+                          borderRadius: 10,
+                          cursor: "pointer",
+                          mr: 2,
+                          "&:hover": { backgroundColor: "#000" },
+                        }}
+                      >
+                        <ArrowBackIcon
+                          fontSize="large"
+                          sx={{ color: "#fff" }}
+                        />
+                      </IconButton>
+                      <Typography variant="h4">ABC</Typography>
+                    </Box>
+                  ) : (
+                    <Logo />
+                  )}
                 </Box>
               </motion.div>
 
-              {isMobile ? (
-                <motion.div variants={btnVariant}>
-                  <MenuBtn
-                    handleToggleMenu={handleToggleMenu}
-                    showSidebar={showSidebar}
-                  />
-                </motion.div>
+              {!isProjectDetailPage ? (
+                isMobile ? (
+                  <motion.div variants={btnVariant}>
+                    <MenuBtn
+                      handleToggleMenu={handleToggleMenu}
+                      showSidebar={showSidebar}
+                    />
+                  </motion.div>
+                ) : (
+                  <>
+                    {/* NavLinks */}
+                    <motion.div
+                      variants={navVariant}
+                      style={{
+                        flexGrow: miniLaptop ? 0.5 : 0.9,
+                        display: "flex",
+                        justifyContent: "end",
+                      }}
+                    >
+                      <NavLinks />
+                    </motion.div>
+
+                    {/* Buttons with hover & tap animation */}
+                    <motion.div
+                      variants={btnVariant}
+                      style={{ display: "flex", gap: 16 }}
+                    >
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                        <Button
+                          href={myResume}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          variant="contained"
+                          size={miniLaptop ? "medium" : "large"}
+                          sx={{
+                            backgroundColor: "primary.main",
+                            textTransform: "none",
+                          }}
+                          startIcon={<ReceiptIcon />}
+                        >
+                          My Resume
+                        </Button>
+                      </motion.div>
+
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                        <Button
+                          component="a"
+                          href="https://github.com/RjRishuSty/"
+                          target="_blank"
+                          variant="contained"
+                          size={miniLaptop ? "medium" : "large"}
+                          sx={{
+                            textTransform: "uppercase",
+                            backgroundColor: "secondary.main",
+                          }}
+                          endIcon={<GitHubIcon />}
+                        >
+                          GitHub
+                        </Button>
+                      </motion.div>
+                    </motion.div>
+                  </>
+                )
               ) : (
-                <>
-                  {/* NavLinks */}
-                  <motion.div
-                    variants={navVariant}
-                    style={{
-                      flexGrow: miniLaptop ? 0.5 : 0.9,
-                      display: "flex",
-                      justifyContent: "end",
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <Button
+                    component="a"
+                    href="https://github.com/RjRishuSty/"
+                    target="_blank"
+                    variant="contained"
+                    size={miniLaptop ? "medium" : "large"}
+                    sx={{
+                      textTransform: "uppercase",
+                      backgroundColor: "secondary.main",
                     }}
+                    endIcon={<GitHubIcon />}
                   >
-                    <NavLinks />
-                  </motion.div>
-
-                  {/* Buttons with hover & tap animation */}
-                  <motion.div
-                    variants={btnVariant}
-                    style={{ display: "flex", gap: 16 }}
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      <Button
-                        href={myResume}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        variant="contained"
-                        size={miniLaptop ? "medium" : "large"}
-                        sx={{
-                          backgroundColor: "primary.main",
-                          textTransform: "none",
-                        }}
-                        startIcon={<ReceiptIcon />}
-                      >
-                        My Resume
-                      </Button>
-                    </motion.div>
-
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      <Button
-                        component="a"
-                        href="https://github.com/RjRishuSty/"
-                        target="_blank"
-                        variant="contained"
-                        size={miniLaptop ? "medium" : "large"}
-                        sx={{
-                          textTransform: "uppercase",
-                          backgroundColor: "secondary.main",
-                        }}
-                        endIcon={<GitHubIcon />}
-                      >
-                        GitHub
-                      </Button>
-                    </motion.div>
-                  </motion.div>
-                </>
+                    Live Demo
+                  </Button>
+                </motion.div>
               )}
             </Toolbar>
           </motion.div>
         </AppBar>
       </ElevationScroll>
-       {showSidebar && isMobile && <SideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />}
+      {showSidebar && isMobile && (
+        <SideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+      )}
     </Box>
   );
 };

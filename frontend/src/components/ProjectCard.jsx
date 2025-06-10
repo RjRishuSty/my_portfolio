@@ -13,11 +13,14 @@ import LiveTvIcon from "@mui/icons-material/LiveTv";
 import InfoIcon from "@mui/icons-material/Info";
 import { allItemsSpacebetween } from "../custom-styles";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const MotionCard = motion(Card);
 
-const ProjectCard = ({ item }) => {
+const ProjectCard = ({ item, useIn }) => {
   const isMobile = useMediaQuery("(max-width:560px)");
+  const isSmallLaptop = useMediaQuery("(max-width:1100px)");
+  const projectPage = useIn === "projectPage";
 
   return (
     <MotionCard
@@ -67,9 +70,11 @@ const ProjectCard = ({ item }) => {
           sx={{ backgroundColor: "#000" }}
           startIcon={<LiveTvIcon fontSize={isMobile ? "medium" : "large"} />}
         >
-          Live Demo
+          {isSmallLaptop && projectPage ? "Demo" : "Live Demo"}
         </Button>
         <Button
+          component={Link}
+          to={`/project/${item.id}`}
           size={isMobile ? "medium" : "large"}
           variant="outlined"
           sx={{
@@ -82,7 +87,7 @@ const ProjectCard = ({ item }) => {
           }}
           endIcon={<InfoIcon fontSize={isMobile ? "medium" : "large"} />}
         >
-          View More
+          {isSmallLaptop && projectPage ? "Details" : "View More"}
         </Button>
       </CardActions>
     </MotionCard>

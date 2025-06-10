@@ -1,5 +1,6 @@
 export const projectList = [
   {
+    id: 1,
     name: "Qtyify ",
     description:
       "A dynamic React application to manage product quantities with real-time updates and responsive design.",
@@ -9,6 +10,7 @@ export const projectList = [
     githubLink: "https://github.com/rishurajdev/qtyify",
   },
   {
+    id: 2,
     name: "Country Explorer ",
     description:
       "A responsive React app that displays country data using the REST Countries API, featuring search functionality.",
@@ -18,7 +20,8 @@ export const projectList = [
     githubLink: "https://github.com/rishurajdev/country-explorer",
   },
   {
-    name: "Age Calculator App",
+    id: 3,
+    name: "Calculator",
     description:
       "A simple tool to calculate age based on birthdate input with real-time validation and responsive UI.",
     skills: ["React", "Form Validation", "JavaScript", "CSS", "HTML"],
@@ -27,6 +30,7 @@ export const projectList = [
     githubLink: "https://github.com/rishurajdev/age-calculator",
   },
   {
+    id: 4,
     name: "RegisterKaro",
     description:
       "Redesigned and developed a responsive homepage using React and Tailwind CSS as part of an assignment round.",
