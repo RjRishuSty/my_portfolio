@@ -10,11 +10,14 @@ import "@fontsource/quicksand/600.css";
 import "@fontsource/quicksand/700.css";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../theme.js";
+import { SnackbarProvider } from "notistack";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <SnackbarProvider>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </SnackbarProvider>
   </StrictMode>
 );

@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from 'cors';
 import messageRouter from "./Routes/message.routes.js";
 import connectDB from "./Lib/connDB.js";
 import adminRoute from "./Routes/admin.routes.js";
@@ -9,6 +10,15 @@ const app = express();
 const PORT = process.env.PORT || 8081;
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://rishu-portfolio-three.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 
 app.use("/contact", messageRouter);
 app.use("/admin", adminRoute);

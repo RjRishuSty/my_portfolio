@@ -7,11 +7,13 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { allItemsCenter } from "../custom-styles";
 import FormInputs from "./FormInputs";
 import InfoCard from "./InfoCard";
 import { motion } from "framer-motion";
+import { enqueueSnackbar } from "notistack";
+import axios from "axios";
 
 // Animation Variants
 const fadeUp = {
@@ -29,8 +31,69 @@ const MotionTypography = motion(Typography);
 const MotionGrid = motion(Grid);
 
 const ContactMe = () => {
+  const [formData, setFormData] = useState({
+    fullname: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
   const miniLaptop = useMediaQuery("(max-width:1025px)");
   const isMobile = useMediaQuery("(max-width:900px)");
+
+  const handleInputChange = useCallback((e) => {
+    setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  }, []);
+
+  const handleInputValidate = () => {
+    if (!formData.fullname) {
+      enqueueSnackbar("Please enter your full name.", { variant: "error" });
+      return false;
+    }
+    if (!formData.email) {
+      enqueueSnackbar("Please provide a valid email address.", {
+        variant: "error",
+      });
+      return false;
+    }
+    if (!formData.subject) {
+      enqueueSnackbar("Please specify the subject of your message.", {
+        variant: "error",
+      });
+      return false;
+    }
+    if (!formData.message) {
+      enqueueSnackbar("Please enter your message or query.", {
+        variant: "error",
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleFromSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!handleInputValidate()) return;
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8081/contact",
+        formData
+      );
+      console.log("Submit Response:", response);
+
+      if (response)
+        return enqueueSnackbar(response.data.message, {
+          variant: "success",
+        });
+    } catch (error) {
+      console.error("Submission error:", error);
+      enqueueSnackbar(error.response.data.message, {
+        variant: "error",
+      });
+    }
+  };
 
   return (
     <MotionStack
@@ -61,7 +124,8 @@ const ContactMe = () => {
           variants={fadeUp}
           custom={0.2}
         >
-          I'm open to freelance, collaboration, or full-time opportunities — drop a message!
+          I'm open to freelance, collaboration, or full-time opportunities —
+          drop a message!
         </MotionTypography>
       </Container>
 
@@ -76,7 +140,14 @@ const ContactMe = () => {
             {isMobile && (
               <MotionTypography
                 variant="h6"
-                sx={{ color: "text.default", fontWeight: 700, mb: 3, backgroundColor: '#ffde59', pl: 2, p: 1 }}
+                sx={{
+                  color: "text.default",
+                  fontWeight: 700,
+                  mb: 3,
+                  backgroundColor: "#ffde59",
+                  pl: 2,
+                  p: 1,
+                }}
                 variants={fadeUp}
                 custom={0.45}
               >
@@ -91,6 +162,8 @@ const ContactMe = () => {
 
           {/* Right Grid */}
           <MotionGrid
+            component="form"
+            onSubmit={handleFromSubmit}
             size={{ xs: 12, sm: 12, md: 8 }}
             variants={fadeUp}
             custom={0.6}
@@ -108,7 +181,13 @@ const ContactMe = () => {
               >
                 <Typography
                   variant="h6"
-                  sx={{ color: "text.default", fontWeight: 700, backgroundColor: '#ffde59', pl: 2, p: 1 }}
+                  sx={{
+                    color: "text.default",
+                    fontWeight: 700,
+                    backgroundColor: "#ffde59",
+                    pl: 2,
+                    p: 1,
+                  }}
                 >
                   Drop Your Query
                 </Typography>
@@ -116,11 +195,12 @@ const ContactMe = () => {
             )}
 
             <MotionBox variants={fadeUp} custom={0.8} sx={{ width: "100%" }}>
-              <FormInputs />
+              <FormInputs handleInputChange={handleInputChange} />
             </MotionBox>
 
             <MotionBox variants={fadeUp} custom={1}>
               <Button
+                type="submit"
                 variant="contained"
                 size="large"
                 sx={{ backgroundColor: "#f9004d", mt: 2 }}

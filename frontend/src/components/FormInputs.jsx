@@ -6,28 +6,32 @@ import SubjectIcon from "@mui/icons-material/Subject";
 import MessageIcon from "@mui/icons-material/Message";
 import { Box, Grid, InputAdornment, TextField } from "@mui/material";
 
-const FormInputs = () => {
+const FormInputs = ({ handleInputChange }) => {
   const formFields = [
     {
       id: "fullname",
+      type: "text",
       name: "fullname",
       label: "Full Name",
       icon: <PersonIcon />,
     },
     {
       id: "email",
+      type: "email",
       name: "email",
       label: "Email Address",
       icon: <EmailIcon />,
     },
     {
       id: "subject",
+      type: "text",
       name: "subject",
       label: "Subject",
       icon: <SubjectIcon />,
     },
     {
       id: "message",
+      type: "textarea",
       name: "message",
       label: "Message",
       icon: <MessageIcon />,
@@ -46,13 +50,15 @@ const FormInputs = () => {
         >
           <TextField
             fullWidth
+            type={item.type}
             size="large"
             id={item.id}
             label={item.label}
             variant="outlined"
             multiline={item.id === "message"}
             rows={item.id === "message" ? 5 : undefined}
-            sx={{color:'text.default'}}
+            sx={{ color: "text.default" }}
+            onChange={handleInputChange}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

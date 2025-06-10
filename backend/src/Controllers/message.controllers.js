@@ -1,26 +1,35 @@
+import { isValidEmail } from "../Lib/isEmailValid.js";
 import messageModel from "../Model/message.model.js";
 
 const addMessage = async (req, res) => {
   const { fullname, email, subject, message } = req.body;
   if (!fullname || !email || !subject || !message)
     return res
-      .status(404)
+      .status(400)
       .json({ message: "All Fields are required!", success: "false" });
+  if (!isValidEmail(email)) {
+    return res.status(400).json({
+      message: "Please enter a valid email address.",
+      success: false,
+    });
+  }
   try {
-    const newMessage = messageModel(req.body);
+    const newMessage = new messageModel({ fullname, email, subject, message });
     if (newMessage) {
       await newMessage.save();
     }
-    res.status(201).json({
-      message: "Message submitted successfully!",
+    return res.status(201).json({
+      message:
+        "Your message has been sent successfully. We'll get back to you soon!",
       success: true,
       data: newMessage,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Message submission failed!",
+    return res.status(500).json({
+      message:
+        "An error occurred while submitting your message. Please try again later.",
       success: false,
-      data: error.message,
+      error: error.message,
     });
   }
 };

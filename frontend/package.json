@@ -15,10 +15,12 @@
     "@fontsource/quicksand": "^5.2.8",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
+    "axios": "^1.9.0",
     "framer-motion": "^12.15.0",
+    "notistack": "^3.0.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.1", 
+    "react-router-dom": "^7.6.1",
     "swiper": "^11.2.8"
   },
   "devDependencies": {
