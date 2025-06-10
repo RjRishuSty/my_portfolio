@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import cors from 'cors';
+import cors from "cors";
 import messageRouter from "./Routes/message.routes.js";
 import connectDB from "./Lib/connDB.js";
 import adminRoute from "./Routes/admin.routes.js";
