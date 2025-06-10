@@ -15,9 +15,7 @@ const addMessage = async (req, res) => {
   }
   try {
     const newMessage = new messageModel({ fullname, email, subject, message });
-    if (newMessage) {
-      await newMessage.save();
-    }
+    await newMessage.save();
     return res.status(201).json({
       message:
         "Your message has been sent successfully. We'll get back to you soon!",
