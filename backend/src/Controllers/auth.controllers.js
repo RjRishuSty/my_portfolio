@@ -1,4 +1,4 @@
-import { generateToken } from "../Lib/generateToken.js";
+import { generateToken } from "../lib/generateToken.js";
 import adminUserModel from "../models/adminUser.model.js";
 import bcrypt from "bcryptjs";
 
