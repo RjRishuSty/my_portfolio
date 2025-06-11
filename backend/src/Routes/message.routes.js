@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addMessage } from "../controllers/message.controllers.js";
+import { addMessage } from "../Controllers/message.controllers.js";
 
 const router = Router();
 
