@@ -1,6 +1,8 @@
 import {
   Button,
+  CircularProgress,
   Container,
+  IconButton,
   InputAdornment,
   Stack,
   TextField,
@@ -13,8 +15,13 @@ import LoginIcon from "@mui/icons-material/Login";
 import { allItemsCenter } from "../../custom-styles";
 import { enqueueSnackbar } from "notistack";
 import axios from "axios";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import IsLoading from "../../components/IsLoading";
 
 const LoginPage = () => {
+  const [isLoading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -39,17 +46,26 @@ const LoginPage = () => {
       });
       return false;
     }
-    return false;
+    return true;
   };
   // TODO: handleSubmit track the form value...................
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!handleInputValidate()) return;
     try {
-      const response = await axios.post(``,formData);
-      console.log(response.data);
+      setLoading(true);
+      const response = await axios.post(
+        `https://my-protfolio-backend-bi5k.onrender.com//api/auth/login`,
+        formData
+      );
+      console.log(response);
+      if (response.data) {
+        enqueueSnackbar(response.data.message, { variant: "success" });
+      }
     } catch (error) {
-      console.log(error.message);
+      enqueueSnackbar(error?.response?.data?.message || "Something went wrong!", { variant: "error" });
+    } finally {
+      setLoading(false);
     }
   };
   const loginFields = [
@@ -66,57 +82,78 @@ const LoginPage = () => {
       icon: <LockIcon sx={{ color: "#f9004d" }} />,
     },
   ];
+  console.log(formData);
   return (
     <Stack
-      sx={{ backgroundColor: "#ffde59", minHeight: "100vh", ...allItemsCenter }}
+      sx={{width:'100%', backgroundColor: "#000", minHeight: "100vh", ...allItemsCenter }}
     >
-      <Container
-        component="form"
-        onSubmit={handleSubmit}
-        maxWidth="sm"
-        sx={{
-          ...allItemsCenter,
-          flexDirection: "column",
-          py: 5,
-          bgcolor: "#fff",
-          boxShadow: "0px 0px 5px black",
-          borderRadius: 5,
-        }}
-      >
-        <Typography gutterBottom variant="h4" sx={{ textAlign: "center" }}>
-          Admin Dashboard Access
-        </Typography>
-        <Typography variant="subtitle1" sx={{ textAlign: "center", mb: 4 }}>
-          Please log in with your credentials to manage and maintain the
-          portfolio content securely.
-        </Typography>
-        {loginFields.map((field) => (
-          <TextField
-            onChange={handleInputChange}
-            key={field.id}
-            id={field.id}
-            type={field.type}
-            label={field.label}
-            variant="outlined"
-            sx={{ mb: 3 }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">{field.icon}</InputAdornment>
-              ),
-            }}
-            fullWidth
-          />
-        ))}
-        <Button
-          type="submit"
-          size="large"
-          variant="contained"
-          endIcon={<LoginIcon fontSize="medium" />}
-          sx={{ backgroundColor: "#f9004d", mt: 2 }}
+      {isLoading ? (
+        <IsLoading useIn="loginPage"/>
+      ) : (
+        <Container
+          component="form"
+          onSubmit={handleSubmit}
+          maxWidth="sm"
+          sx={{
+            ...allItemsCenter,
+            flexDirection: "column",
+            py: 5,
+            bgcolor: "#fff",
+            boxShadow: "0px 0px 5px black",
+            borderRadius: 5,
+          }}
         >
-          Login
-        </Button>
-      </Container>
+          <Typography gutterBottom variant="h4" sx={{ textAlign: "center" }}>
+            Admin Dashboard Access
+          </Typography>
+          <Typography variant="subtitle1" sx={{ textAlign: "center", mb: 4 }}>
+            Please log in with your credentials to manage and maintain the
+            portfolio content securely.
+          </Typography>
+          {loginFields.map((field) => (
+            <TextField
+              onChange={handleInputChange}
+              key={field.id}
+              id={field.id}
+              type={
+                field.id === "password"
+                  ? showPassword
+                    ? "text"
+                    : "password"
+                  : field.type
+              }
+              label={field.label}
+              variant="outlined"
+              value={formData[field.id]}
+              sx={{ mb: 3 }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">{field.icon}</InputAdornment>
+                ),
+                endAdornment: field.id === "password" && (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              fullWidth
+            />
+          ))}
+          <Button
+            type="submit"
+            size="large"
+            variant="contained"
+            endIcon={<LoginIcon fontSize="medium" />}
+            sx={{ backgroundColor: "#f9004d", mt: 2 }}
+          >
+            Login
+          </Button>
+        </Container>
+      )}
     </Stack>
   );
 };

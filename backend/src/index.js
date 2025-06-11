@@ -1,17 +1,18 @@
+//* Importing all install liber.......
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import messageRouter from "./Routes/message.routes.js";
-import connectDB from "./Lib/connDB.js";
-import adminRoute from "./Routes/admin.routes.js";
+import messageRouter from "./routes/message.routes.js";
+import connectDB from "./lib/connDB.js";
+import authRoutes from "./routes/auth.routes.js";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8081;
 
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(
   cors({
     origin: [
@@ -23,7 +24,7 @@ app.use(
 );
 
 app.use("/contact", messageRouter);
-app.use("/admin", adminRoute);
+app.use("/api/auth", authRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

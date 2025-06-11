@@ -5,10 +5,11 @@ export const generateToken = (userId, res) => {
     expiresIn: "7d",
   });
   // Cookies............
-  res.cookie("JWT_token", token, {
+  res.cookie("jwt_token", token, {
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7days
     httpOnly: true,
     sameSite: "strict",
+    secure: true
   });
   return token;
 };

@@ -9,6 +9,7 @@ import ProjectPage from "./pages/ProjectPage";
 import ShowProjectDetails from "./pages/ShowProjectDetails";
 import AdminPage from "./pages/Admin/AdminPage";
 import LoginPage from "./pages/Admin/LoginPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -38,7 +39,11 @@ const App = () => {
         },
         {
           path: "/admin",
-          element: <AdminPage />,
+          element: (
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/login",

@@ -1,5 +1,5 @@
-import { isValidEmail } from "../Lib/isEmailValid.js";
-import messageModel from "../Model/message.model.js";
+import { isValidEmail } from "../lib/isEmailValid.js";
+import messageModel from "../models/message.model.js";
 
 const addMessage = async (req, res) => {
   const { fullname, email, subject, message } = req.body;
