@@ -18,10 +18,12 @@ import axios from "axios";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IsLoading from "../../components/IsLoading";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -55,15 +57,18 @@ const LoginPage = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `https://my-protfolio-backend-bi5k.onrender.com//api/auth/login`,
+        `https://my-protfolio-backend-bi5k.onrender.com/api/auth/login`,
         formData
       );
-      console.log(response);
       if (response.data) {
+        navigate("/admin");
         enqueueSnackbar(response.data.message, { variant: "success" });
       }
     } catch (error) {
-      enqueueSnackbar(error?.response?.data?.message || "Something went wrong!", { variant: "error" });
+      enqueueSnackbar(
+        error?.response?.data?.message || "Something went wrong!",
+        { variant: "error" }
+      );
     } finally {
       setLoading(false);
     }
@@ -82,13 +87,17 @@ const LoginPage = () => {
       icon: <LockIcon sx={{ color: "#f9004d" }} />,
     },
   ];
-  console.log(formData);
   return (
     <Stack
-      sx={{width:'100%', backgroundColor: "#000", minHeight: "100vh", ...allItemsCenter }}
+      sx={{
+        width: "100%",
+        backgroundColor: "#000",
+        minHeight: "100vh",
+        ...allItemsCenter,
+      }}
     >
       {isLoading ? (
-        <IsLoading useIn="loginPage"/>
+        <IsLoading useIn="loginPage" />
       ) : (
         <Container
           component="form"
