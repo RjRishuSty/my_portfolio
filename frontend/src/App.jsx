@@ -7,6 +7,8 @@ import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import ProjectPage from "./pages/ProjectPage";
 import ShowProjectDetails from "./pages/ShowProjectDetails";
+import AdminPage from "./pages/Admin/AdminPage";
+import LoginPage from "./pages/Admin/LoginPage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -33,6 +35,14 @@ const App = () => {
         {
           path: "/project/:id",
           element: <ShowProjectDetails />,
+        },
+        {
+          path: "/admin",
+          element: <AdminPage />,
+        },
+        {
+          path: "/login",
+          element: <LoginPage />,
         },
       ],
     },
