@@ -120,13 +120,11 @@ const Header = (props) => {
             <Toolbar sx={{ justifyContent: "space-between" }}>
               {/* Logo */}
               <motion.div variants={logoVariant}>
-                <Box
-                  flexGrow={miniLaptop ? 1 : 0.5}
-                >
+                <Box flexGrow={miniLaptop ? 1 : 0.5}>
                   {isProjectDetailPage ? (
                     <Box sx={{ ...allItemsCenter }}>
                       <IconButton
-                      onClick={()=>navigate(-1)}
+                        onClick={() => navigate(-1)}
                         sx={{
                           backgroundColor: "#f9004d",
                           borderRadius: 10,
@@ -136,11 +134,11 @@ const Header = (props) => {
                         }}
                       >
                         <ArrowBackIcon
-                          fontSize="large"
+                          fontSize={isMobile ? "small" : "large"}
                           sx={{ color: "#fff" }}
                         />
                       </IconButton>
-                      <Typography variant="h4">ABC</Typography>
+                      <Typography variant={isMobile?"h5":"h4"}>ABC</Typography>
                     </Box>
                   ) : (
                     <Logo />

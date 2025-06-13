@@ -15,4 +15,8 @@ export const links = [
     label: "Projects",
     path: "/project",
   },
+  {
+    label: "Admin Dashboard",
+    path: "/admin",
+  },
 ];
