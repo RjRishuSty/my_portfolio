@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import messageRouter from "./routes/message.routes.js";
 import connectDB from "./lib/connDB.js";
 import authRoutes from "./routes/auth.routes.js";
+import projectRoutes from './routes/project.routes.js';
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,7 @@ app.use(
 
 app.use("/contact", messageRouter);
 app.use("/api/auth", authRoutes);
+app.use("/api", projectRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

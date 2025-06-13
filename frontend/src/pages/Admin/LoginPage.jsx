@@ -58,7 +58,7 @@ const LoginPage = () => {
       setLoading(true);
       const response = await axios.post(
         `https://my-protfolio-backend-bi5k.onrender.com/api/auth/login`,
-        formData
+        formData,{ withCredentials: true }
       );
       if (response.data) {
         navigate("/admin");
