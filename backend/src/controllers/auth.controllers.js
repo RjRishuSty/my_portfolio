@@ -1,6 +1,7 @@
 import { generateToken } from "../lib/generateToken.js";
 import adminUserModel from "../models/adminUser.model.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -59,4 +60,22 @@ const logout = async (req, res) => {
 };
 
 
-export {login ,logout}
+const checkAuth = async(req,res)=>{
+  try {
+    const token = req.cookies.jwt_token;
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized: Please Login" });
+    }
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const user = await adminUserModel.findById(decoded.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ user, success: true });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
+  }
+}
+
+
+export {login ,logout,checkAuth}
