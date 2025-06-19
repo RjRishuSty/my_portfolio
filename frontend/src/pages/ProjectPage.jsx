@@ -1,7 +1,6 @@
 import { Container, Grid, Stack, Typography } from "@mui/material";
 import React from "react";
 import { motion } from "framer-motion";
-import { projectList } from "../../projectList";
 import ProjectCard from "../components/ProjectCard";
 
 // Animation variants
@@ -28,8 +27,7 @@ const MotionStack = motion(Stack);
 const MotionTypography = motion(Typography);
 const MotionGrid = motion(Grid);
 
-const ProjectPage = () => {
-
+const ProjectPage = ({ projectData }) => {
   return (
     <MotionStack
       initial="hidden"
@@ -59,7 +57,6 @@ const ProjectPage = () => {
           Explore the real-world applications I’ve crafted with passion and
           precision.
         </MotionTypography>
-
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -67,7 +64,7 @@ const ProjectPage = () => {
           viewport={{ once: true }}
         >
           <Grid container rowSpacing={3} columnSpacing={3} sx={{ mt: 7 }}>
-            {projectList.map((item, index) => (
+            {projectData.map((item, index) => (
               <MotionGrid
                 key={index}
                 size={{ xs: 12, sm: 6, md: 4 }}

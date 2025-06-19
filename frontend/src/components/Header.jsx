@@ -19,9 +19,10 @@ import MenuBtn from "./MenuBtn";
 import myResume from "../assets/my_Resume.pdf";
 import { motion } from "framer-motion";
 import SideBar from "./SideBar";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { allItemsCenter } from "../custom-styles";
+import LiveTvIcon from "@mui/icons-material/LiveTv";
 
 // Elevation on scroll
 function ElevationScroll({ children, window, isProjectDetailPage }) {
@@ -81,25 +82,25 @@ const btnVariant = {
   show: { x: 0, opacity: 1, transition: { type: "tween", ease: "easeOut" } },
 };
 
-//  // Get Project Name Handle ..............
-//   export const handleGetProjectName = useCallback((name)=>{
-//     setProjectName(name);
-//   },[])
-
-const Header = (props) => {
+const Header = ({ props, projectData }) => {
   const location = useLocation();
+  const projectId = useParams();
   const navigate = useNavigate();
   const [showSidebar, setShowSidebar] = useState(false);
   const miniLaptop = useMediaQuery("(max-width:1100px)");
   const isMobile = useMediaQuery("(max-width:860px)");
 
   // Check if path matches "/project/:id"
-  const isProjectDetailPage = /^\/project\/\d+$/.test(location.pathname);
+  const isProjectDetailPage = /^\/project\/[^/]+$/.test(location.pathname);
+
+  // Path is match then filter product
+  const currentProject = projectData.find((item) => item._id === projectId.id);
 
   // TODO: Handle toggle menu btn close slidebar and open slidebar............
   const handleToggleMenu = () => {
     setShowSidebar((prev) => !prev);
   };
+  
   return (
     <Box component="nav" sx={{ flexGrow: 1 }}>
       <CssBaseline />
@@ -130,15 +131,21 @@ const Header = (props) => {
                           borderRadius: 10,
                           cursor: "pointer",
                           mr: 2,
-                          "&:hover": { backgroundColor: "#000" },
+                          "&:hover": { border:'2px solid #f9004d',backgroundColor:'transparent' },
                         }}
                       >
                         <ArrowBackIcon
                           fontSize={isMobile ? "small" : "large"}
-                          sx={{ color: "#fff" }}
+                          sx={{ color: "#fff", "&:hover":{color:'#000'} }}
                         />
                       </IconButton>
-                      <Typography variant={isMobile?"h5":"h4"}>ABC</Typography>
+                      <Typography
+                        sx={{ color: "text.default" }}
+                        variant={isMobile ? "h5" : "h4"}
+                      >
+                        {currentProject?.name || "Project Details"}{" "}
+                        {isMobile ? "" : "App"}
+                      </Typography>
                     </Box>
                   ) : (
                     <Logo />
@@ -225,7 +232,7 @@ const Header = (props) => {
                 >
                   <Button
                     component="a"
-                    href="https://github.com/RjRishuSty/"
+                    href={currentProject?.demo || ""}
                     target="_blank"
                     variant="contained"
                     size={miniLaptop ? "medium" : "large"}
@@ -233,7 +240,7 @@ const Header = (props) => {
                       textTransform: "uppercase",
                       backgroundColor: "secondary.main",
                     }}
-                    endIcon={<GitHubIcon />}
+                    endIcon={<LiveTvIcon />}
                   >
                     Live Demo
                   </Button>

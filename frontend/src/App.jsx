@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   createBrowserRouter,
   Navigate,
@@ -12,35 +12,41 @@ import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import ProjectPage from "./pages/ProjectPage";
 import ShowProjectDetails from "./pages/ShowProjectDetails";
-import AdminLayout from "./AppLayout/AdminLayout";
-import LoginPage from "./pages/Admin/Pages/LoginPage";
-import AdminPage from "./pages/Admin/Pages/AdminPage";
-import AddProject from "./pages/Admin/Pages/AddProject";
+import axios from "axios";
 
 const App = () => {
+  const [projectData, setProjectData] = useState([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await axios.get(
+          `https://my-protfolio-backend-bi5k.onrender.com/api/projects`
+        );
+        setProjectData(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchProjects();
+  }, []);
+
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <AppLayout />,
+      element: <AppLayout projectData={projectData} />,
       children: [
-        { path: "", element: <HomePage /> },
+        { path: "", element: <HomePage projectData={projectData} /> },
         { path: "about", element: <AboutPage /> },
         { path: "contact", element: <ContactPage /> },
-        { path: "project", element: <ProjectPage /> },
-        { path: "project/:id", element: <ShowProjectDetails /> },
+        { path: "project", element: <ProjectPage projectData={projectData} /> },
+        { path: "project/:id", element: <ShowProjectDetails projectData={projectData}/> },
       ],
     },
     {
-      path: "/admin",
-      element: <AdminLayout />,
-      children: [
-        { path: "", element: <Navigate to="/admin/dashboard" replace /> },
-        { path: "dashboard", element: <AdminPage /> },
-        {path:'add-project', element: <AddProject/>}
-      ],
-    },
-    { path: "/login", element: <LoginPage /> },
-    { path: "*", element: <NotFound /> },
+      path:"*",
+      element:<NotFound/>
+    }
   ]);
 
   return <RouterProvider router={router} />;

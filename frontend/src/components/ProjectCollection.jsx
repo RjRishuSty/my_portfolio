@@ -6,7 +6,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import React from "react";
-import { projectList } from "../../projectList";
 import ProjectCard from "./ProjectCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -31,7 +30,7 @@ const containerVariants = {
   },
 };
 
-const ProjectCollection = () => {
+const ProjectCollection = ({projectData}) => {
   const isTablet = useMediaQuery("(max-width:970px)");
   const isMobile = useMediaQuery("(max-width:560px)");
 
@@ -95,7 +94,7 @@ const ProjectCollection = () => {
           ...allItemsCenter,
         }}
       >
-        {projectList.map((item, i) => (
+        {projectData.map((item, i) => (
           <SwiperSlide key={item.name}>
             <motion.div
               initial={{ opacity: 0, y: 40 }}

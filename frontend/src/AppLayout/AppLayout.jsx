@@ -2,14 +2,11 @@ import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ScrollToTop from "../components/ScrollToTop";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import LoadingPageLayout from "./LoadingPageLayout";
 
-const AppLayout = () => {
-  const location = useLocation();
+const AppLayout = ({ projectData }) => {
   const [assetsLoaded, setAssetsLoaded] = useState(false);
-
-  const admin = location.pathname === "/login" || location.pathname === "/admin";
 
   useEffect(() => {
     const imagesToLoad = [
@@ -42,24 +39,16 @@ const AppLayout = () => {
     });
   }, []);
 
-  if (!assetsLoaded) {
+  if (!assetsLoaded && (!projectData || projectData.length === 0)) {
     return <LoadingPageLayout />;
   }
 
   return (
     <>
-      {admin ? (
-        <>
-          <Outlet />
-        </>
-      ) : (
-        <>
-          <Header />
-          <ScrollToTop />
-          <Outlet />
-          <Footer />
-        </>
-      )}
+      <Header projectData={projectData} />
+      <ScrollToTop />
+      <Outlet />
+      <Footer />
     </>
   );
 };

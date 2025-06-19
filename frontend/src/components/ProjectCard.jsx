@@ -25,29 +25,23 @@ const ProjectCard = ({ item, useIn }) => {
   return (
     <MotionCard
       whileHover={{ scale: 1.03 }}
-      transition={{ type: "spring", stiffness: 300 }}
+      transition={{ type: "tween", duration: 0.3, ease: "easeOut" }}
       sx={{
         width: "100%",
-        backgroundColor: "#f2f2f2",
+        backgroundColor: "#ffde59",
         border: "none",
-        borderRadius: 5,
         boxShadow: "0 4px 5px rgba(0, 0, 0, 0.9)",
       }}
     >
       <Box
         component="img"
-        src={item.img ? item.img : projectImg}
+        src={item.images ? item.images[0] : projectImg}
         alt={item.name}
         sx={{
           width: "100%",
-          height: "300px",
-          objectFit: "cover",
+          height: "auto",
+          objectFit: "contain",
           objectPosition: "center",
-          transition: "transform 0.3s ease-in-out, filter 0.3s ease-in-out",
-          "&:hover": {
-            transform: "scale(1.05)",
-            filter: "brightness(0.9)",
-          },
         }}
       />
       <CardContent>
@@ -65,6 +59,9 @@ const ProjectCard = ({ item, useIn }) => {
       </CardContent>
       <CardActions sx={{ ...allItemsSpacebetween, mb: 2, px: 2 }}>
         <Button
+          component="a"
+          target="_blank"
+          href={item.demo}
           size={isMobile ? "medium" : "large"}
           variant="contained"
           sx={{ backgroundColor: "#000" }}
@@ -74,7 +71,7 @@ const ProjectCard = ({ item, useIn }) => {
         </Button>
         <Button
           component={Link}
-          to={`/project/${item.id}`}
+          to={`/project/${item._id}`}
           size={isMobile ? "medium" : "large"}
           variant="outlined"
           sx={{
