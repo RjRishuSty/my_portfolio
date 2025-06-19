@@ -11,6 +11,7 @@ const projectSchema = mongoose.Schema(
     },
     images: { type: [String], default: [] },
     skills: { type: [String], required: true },
+    demo: { type: String, default: "" },
   },
   { timestamps: true }
 );

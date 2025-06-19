@@ -12,16 +12,14 @@ import React, { useState } from "react";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import LoginIcon from "@mui/icons-material/Login";
-import { allItemsCenter } from "../../custom-styles";
 import { enqueueSnackbar } from "notistack";
 import axios from "axios";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import IsLoading from "../../components/IsLoading";
 import { useNavigate } from "react-router-dom";
+import { allItemsCenter } from "../../../custom-styles";
 
 const LoginPage = () => {
-  const [isLoading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -55,7 +53,6 @@ const LoginPage = () => {
     e.preventDefault();
     if (!handleInputValidate()) return;
     try {
-      setLoading(true);
       const response = await axios.post(
         `https://my-protfolio-backend-bi5k.onrender.com/api/auth/login`,
         formData,{ withCredentials: true }
@@ -70,7 +67,7 @@ const LoginPage = () => {
         { variant: "error" }
       );
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
   const loginFields = [
@@ -96,9 +93,6 @@ const LoginPage = () => {
         ...allItemsCenter,
       }}
     >
-      {isLoading ? (
-        <IsLoading useIn="loginPage" />
-      ) : (
         <Container
           component="form"
           onSubmit={handleSubmit}
@@ -162,7 +156,6 @@ const LoginPage = () => {
             Login
           </Button>
         </Container>
-      )}
     </Stack>
   );
 };

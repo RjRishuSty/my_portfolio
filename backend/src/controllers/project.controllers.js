@@ -57,4 +57,30 @@ const createProject = async (req, res) => {
   }
 };
 
-export { createProject };
+const getProjects = async (req, res) => {
+  try {
+    const projects = await projectModel.find();
+
+    if (projects.length === 0) {
+      return res.status(404).json({
+        message: "No projects found.",
+        success: false,
+        data: [],
+      });
+    }
+
+    res.status(200).json({
+      message: "Projects loaded successfully.",
+      success: true,
+      data: projects,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Somethings went wrong.",
+      success: false,
+      data: error.message,
+    });
+  }
+};
+
+export { createProject, getProjects };
