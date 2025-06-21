@@ -76,13 +76,32 @@ The application also includes a secure **Admin Panel** with functionality to add
 
 ---
 
+## 🧪 Running Locally
 
-
-
+To run this project locally, follow these steps:
 
 ---
 
-Let me know if you'd like:
-- A PDF version of this `README`
-- Help generating project badges (e.g., build passing, deployed on Vercel)
-- A visual banner for your GitHub page
+### 🔧 Prerequisites
+
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v16 or higher)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account or local MongoDB instance
+
+---
+
+### 📁 Clone the Repository
+
+```bash
+git clone https://github.com/RjRishuSty/my_portfolio.git
+cd my_portfolio
+
+## 📝 License
+
+This project is licensed under the **MIT License**.
+
+You are free to use, modify, and distribute this code for personal, academic, or commercial purposes. However, the original author (Rishu Raj) takes no responsibility for any issues caused by this software.
+
+
