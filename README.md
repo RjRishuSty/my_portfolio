@@ -98,10 +98,6 @@ Make sure you have the following installed:
 git clone https://github.com/RjRishuSty/my_portfolio.git
 cd my_portfolio
 
-## 📝 License
 
-This project is licensed under the **MIT License**.
-
-You are free to use, modify, and distribute this code for personal, academic, or commercial purposes. However, the original author (Rishu Raj) takes no responsibility for any issues caused by this software.
 
 
